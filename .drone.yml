@@ -46,13 +46,13 @@ pipeline:
     commands:
       - echo "published to production"
     when:
-      branch: master
-      event: tag
+      branch: release/publish
+      event: push
 
   deploy_to_prod:
     image: alpine
     commands:
       - echo "deployed to production"
     when:
-      branch: master
-      event: tag
+      branch: release/publish 
+      event: push
