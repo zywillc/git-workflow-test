@@ -23,7 +23,11 @@ pipeline:
     image: alpine
     commands:
       - echo "passed test"
-
+  
+  dw-003-test:
+    image: alpine
+    commands:
+      - echo "dw-003 test"
   # CI staging publish
   publish_to_stage:
     image: alpine
