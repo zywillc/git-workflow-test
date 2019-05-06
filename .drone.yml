@@ -1,0 +1,62 @@
+---
+# fix drone git clone bug
+clone:
+  git_push_clone:
+    image: plugins/git:latest
+    pull: true
+    recursive: true
+    when:
+      event:
+        - push
+        - tag
+
+  git_pr_clone:
+    image: plugins/git:next
+    pull: true
+    recursive: true
+    when:
+      event: pull_request
+
+pipeline:
+  # CI test
+  test:
+    image: alpine
+    commands:
+      - echo "passed test"
+  
+  dw-003-test:
+    image: alpine
+    commands:
+      - echo "dw-003 test"
+  # CI staging publish
+  publish_to_stage:
+    image: alpine
+    commands:
+      - echo "published to staging"
+    when:
+      branch: release/staging
+      event: push
+
+  deploy_to_stage:
+    image: alpine
+    commands:
+      - echo "deployed to staging"
+    when:
+      branch: release/staging
+      event: push
+
+  publish_to_stage:
+    image: alpine
+    commands:
+      - echo "published to production"
+    when:
+      branch: release/prod
+      event: push
+
+  deploy_to_stage:
+    image: alpine
+    commands:
+      - echo "deployed to production"
+    when:
+      branch: release/prod
+      event: push
